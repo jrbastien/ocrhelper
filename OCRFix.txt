@@ -1,25 +1,31 @@
  ,|,
   eft | eſt 
+ eſl|eſt
+ efi|eſt
  ell | eſt 
  ell; |eſt 
-  â | à 
+ ell: |eſt 
+ ef’t|eſt
+el’t|eſt
+   â | à 
+àla|à la
  ſc | ſe 
  ‘a | à 
  'a | à 
  —|-
 —|- 
  ‘|’
-ﬀ|ff
+%.|à
 ﬁx|ſix
-ﬁ|fi
-ﬄ|ffl
-ﬅ|ſt
 Ce font|Ce ſont
 GHAPITRE|CHAPITRE
 V oyez|Voyez
 Voyeî l|Voyez l
 Voyeï l|Voyez l
 ainfi|ainſi
+ainﬁ|ainſi
+ailance|aiſance
+aﬃeurer|affleurer
 alſembl|aſſembl
 auﬁi|auſſi
 auﬃ|auſſi
@@ -27,18 +33,27 @@ auſſr|auſſi
 auſii|auſſi
 aſtëmbl|aſſembl
 aﬁn|afin
+aſièz|aſſez
 â-dire|à-dire
 â- dire|à-dire
 - â- dire|-à-dire
+-â-|-à-
 cboſe|choſe
 ces fortes d|ces ſortes d
 chaﬃs|chaſſis
 c’eſi|c’eſt
+conﬁdérations|conſidérations
 deﬃné|deſſiné
 deﬃls|deſſus
+deﬃis|deſſus
 deſſlné|deſſiné
+delſous|deſſous
+ dela | de la 
 diﬀ|diff
 diﬃc|diffic
+domeﬅique|domeſtique
+domeſiique|domeſtique
+domcﬅique|domeſtique
 e'|é
 efi: |eſt 
 efi; |eſt 
@@ -51,20 +66,34 @@ eſi |eſt
 eﬀet|effet
 eﬅ|eſt
 eſpcce|eſpece
+eſpœe|eſpece
 fauve|ſauve
 ferve|ſerve
 fixieme|ſixieme
 font à|ſont à
 leiquelles|leſquelles
+lesquclles|leſquelles
 néceſiaire|néceſſaire
 pofiible|poſſible
+poſiible|poſſible
 poſfible|poſſible
 poſhble|poſſible
 poflible|poſſible
 poﬂible|poſſible
+poﬃble|poſſible
+richeſie|richeſſe
 uſiïge|uſage
 uſàge|uſage
+ufàge|uſage
 uſiige|uſage
 épais: seur|épaiſſeur
 épaiſlèur|épaiſſeur
+ſuﬄſamment|ſuffiſamment
 ſuﬃ|ſuffi
+{a|ſa
+resie|reſte
+veſiibules|veſtibules
+ﬀ|ff
+ﬁ|fi
+ﬄ|ffl
+ﬅ|ſt

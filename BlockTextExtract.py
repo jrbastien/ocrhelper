@@ -86,7 +86,7 @@ f = open(ocrfile,"w")
 for root, dirs, filenames in os.walk(subfolder):
     for file in sorted(filenames, key=numericalSort):
 		print("Performing OCR on " + str(file))
-		text = pytesseract.image_to_string(Image.open(os.path.join(subfolder, file)), lang="frm").encode('utf-8')
+		text = pytesseract.image_to_string(Image.open(os.path.join(subfolder, file)), lang="frm", config="-c tessedit_char_blacklist=%").encode('utf-8')
 		if text[:4] == 'MENU':
 			print('Excluding block of text starting with MENUISIER')
 		else:
@@ -110,6 +110,7 @@ with open (ocrfile, "r") as textfile: # load each file in the variable text
 	# start replacement
 	#rep = dict((re.escape(k), v) for k, v in rep.items()) commented to enable the use in the mapping of re reserved characters
 	pattern = re.compile("|".join(rep.keys()))
+	print (pattern)
 	text = pattern.sub(lambda m: rep[m.group(0)], text)
 
 	#write of te output files with new suffice
@@ -120,7 +121,7 @@ with open (ocrfile, "r") as textfile: # load each file in the variable text
 # Removing empty lines
 with open(ocrfile[:-4]+"_OCRFix.txt") as file: 
     text = file.read() # read file into memory
-text = re.sub(r'([a-zàé,])(\n\n)([a-zſ])', r'\1\n\3', text) # remove empty line between words
+text = re.sub(r'([a-zàé,:])(\n\n)([a-zſ&])', r'\1\n\3', text) # remove empty line between words
 text = re.sub(r'([a-zàé]\-)(\n\n)([a-zſ])', r'\1\n\3', text) # remove empty line between hyphenation
 text = re.sub(r'([a-zàé]\—)(\n\n)([a-zſ])', r'\1\n\3', text) # remove empty line between hyphenation
 

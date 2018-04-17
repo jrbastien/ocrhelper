@@ -1,7 +1,7 @@
 # ocrhelper
 Tools to improve the OCR accuracy of old books
 
-## Prerequesits
+## Prerequisites
 
 - python 2.7
 - Pillow
@@ -32,6 +32,7 @@ $ pip install pytesseract
 
 - In BlockTextExtract.py, you may want to change the size of the areas to discard based on the size of your scan.  For the small areas, you might want to discard any page numbers, for the large area, you are trying to exclude a large contour that would include the entire page.
 - The language of the OCR training file needs to be changed to your language.  It is currently lang="frm" to recognize medieval French.
+- Certain characters can be excluded from the OCR.  Currently, it only excludes %.  Modify tessedit_char_blacklist= as needed.
 - Specify the text in the header or in the footer of the page that you want to exclude.  Currently it is "if text[:4] == 'MENU':".  This is to exclude any footer with "MENUISIER" in it.
 - OCRFix.txt is a dictionary of words to be corrected.  The left end side of the pipe delimiter is the word to correct, the right end side, the corrected word.  Adjust as necessary based on your results.
 
