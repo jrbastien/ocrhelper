@@ -42,6 +42,4 @@ $ pip install pytesseract
 ## To conclude
 If you find these helpers helpful, let me know and if you have any suggestions to improve them, I would be glad to know what they are.
 
-<img src="https://raw.githubusercontent.com/ocrhelper/master/samples/gri_33125009321551_0187_contoured.jpg" alt="image" width=auto>
-
-
+<img src="https://raw.githubusercontent.com/jrbastien/ocrhelper/master/samples/gri_33125009321551_0187_contoured.jpg" alt="image" width=auto>
