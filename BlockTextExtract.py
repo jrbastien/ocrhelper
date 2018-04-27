@@ -51,6 +51,7 @@ for file in os.listdir(dirpath):
 			_, contours, hierarchy = cv2.findContours(dilated,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE) # get contours
 
 			# for each contour found, draw a rectangle around it on original image
+			contourcount = 0			
 			for contour in contours:
 				# get rectangle bounding contour
 				[x,y,w,h] = cv2.boundingRect(contour)
@@ -66,6 +67,7 @@ for file in os.listdir(dirpath):
 
 				crop_img = image[y:y+h, x:x+w]
 				#cv2.imshow("cropped%d.png" %i, crop_img)
+				contourcount= contourcount + 1				
 				filename = os.path.splitext(file)[0] + "_cropped_%d.png" % y
 				cv2.imwrite(os.path.join(subfolder, filename), crop_img)
 				#cv2.waitKey(0)
@@ -75,7 +77,10 @@ for file in os.listdir(dirpath):
 			 
 			# write original image with added contours to disk  
 			cv2.imwrite(os.path.splitext(file)[0] + "_contoured.jpg", image) 
-			# cv2.destroyAllWindows() 
+			# cv2.destroyAllWindows()
+			if contourcount == 0:
+				print ('No block of text found, writing the entire image')
+				cv2.imwrite(os.path.join(subfolder, file), image)
 if filecount == 0:
 	print ('There is no png to process')
 	exit()
