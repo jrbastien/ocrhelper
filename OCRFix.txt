@@ -1,100 +1,85 @@
  ,|,
-  eft | eſt 
- eſl|eſt
- efi|eſt
- ell | eſt 
- ell; |eſt 
- ell: |eſt 
- ef’t|eſt
-el’t|eſt
+  eft | eﬅ 
+ eſl|eﬅ
+ efi|eﬅ
+ ell | eﬅ 
+ ell; |eﬅ 
+ ell: |eﬅ 
+ ef’t|eﬅ
+el’t|eﬅ
    â | à 
 àla|à la
  ſc | ſe 
- ‘a | à 
- 'a | à 
- —|-
-—|- 
- ‘|’
-%.|à
-ﬁx|ſix
+ﬁx|x
 Ce font|Ce ſont
 GHAPITRE|CHAPITRE
 V oyez|Voyez
-Voyeî l|Voyez l
-Voyeï l|Voyez l
-ainfi|ainſi
-ainﬁ|ainſi
+ainfi|ain
+ainﬁ|ain
 ailance|aiſance
-aﬃeurer|affleurer
-alſembl|aſſembl
-auﬁi|auſſi
-auﬃ|auſſi
-auſſr|auſſi
-auſii|auſſi
-aſtëmbl|aſſembl
-aﬁn|afin
-aſièz|aſſez
+aﬃeurer|aﬄeurer
+ alin q| afin q
+alſembl|aembl
+auﬁi|aui
+auﬃ|aui
+aur|aui
+auſii|aui
+ aſin | aﬁn 
 â-dire|à-dire
 â- dire|à-dire
 - â- dire|-à-dire
 -â-|-à-
+â-peu-|à-peu-
+â-plomb|à-plomb
 cboſe|choſe
 ces fortes d|ces ſortes d
-chaﬃs|chaſſis
-c’eſi|c’eſt
-conﬁdérations|conſidérations
-deﬃné|deſſiné
-deﬃls|deſſus
-deﬃis|deſſus
-deſſlné|deſſiné
-delſous|deſſous
+chaﬃs|chais
+c’eſi|c’eﬅ
+ cﬅ | eﬅ 
+ conﬁdérations|condérations
+deﬃné|deiné
+deﬃls|deus
+deﬃis|deus
+delné|deiné
+delſous|deous
  dela | de la 
-diﬀ|diff
-diﬃc|diffic
-domeﬅique|domeſtique
-domeſiique|domeſtique
-domcﬅique|domeſtique
-e'|é
-efi: |eſt 
-efi; |eſt 
-efl: |eſt 
-eſi—à—dire|eſt—à—dire
-eſ’t|eſt
-eſ} |eſt 
+domeſiique|domeﬅique
+domcﬅique|domeﬅique
+d’unc |d’une 
+efi: |eﬅ 
+efi; |eﬅ 
+efl: |eﬅ 
+eſi—à—dire|eﬅ—à—dire
+eſ’t|eﬅ
 e’|é
-eſi |eſt 
-eﬀet|effet
-eﬅ|eſt
+eſi |eﬅ 
 eſpcce|eſpece
 eſpœe|eſpece
-fauve|ſauve
+épaieur|épaieur
 ferve|ſerve
-fixieme|ſixieme
+feulement|ſeulement
+fixieme|xieme
 font à|ſont à
+folide|ſolide
+ groﬀe | groe 
 leiquelles|leſquelles
 lesquclles|leſquelles
-néceſiaire|néceſſaire
-pofiible|poſſible
-poſiible|poſſible
-poſfible|poſſible
-poſhble|poſſible
-poflible|poſſible
-poﬂible|poſſible
-poﬃble|poſſible
-reſie|reſte
-richeſie|richeſſe
-uſiïge|uſage
+néceſiaire|néceaire
+pofiible|poible
+poſiible|poible
+poſfible|poible
+poſhble|poible
+poflible|poible
+poﬂible|poible
+poﬃble|poible
+richeſie|richee
+ſàns|ſans
+três-|très-
 uſàge|uſage
 ufàge|uſage
 uſiige|uſage
-épais: seur|épaiſſeur
-épaiſlèur|épaiſſeur
-ſuﬄſamment|ſuffiſamment
-ſuﬃ|ſuffi
-{a|ſa
-resie|reſte
-veſiibules|veſtibules
-ﬀ|ff
-ﬁ|fi
-ﬄ|ffl
-ﬅ|ſt
+épais: seur|épaieur
+épaiſlèur|épaieur
+resie|reﬅe
+veſiibules|veﬅibules
+V oycz|Voyez

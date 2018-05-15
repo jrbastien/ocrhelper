@@ -11,6 +11,16 @@ import codecs
 import re
 import shutil
 
+MAX_HEIGHT = 83		# Max % of page height that can be a text block - anything larger is discarded
+MAX_WIDTH = 78		# Max % of page width that can be a text block - anything larger is discarded
+MIN_HEIGHT = 1.4	# Min % of page height that can contain text - anything smaller is discarded
+MIN_WIDTH = 7.8		# Min % of page width that can contain text - anything smaller is discarded.
+
+DILATATION_ITERATIONS = 13 # Number of dilatations needed around text to create valid contours
+
+TEXT_EXCLUSION = 'MENU'
+TEXT_LANGUAGE = 'rbo'
+
 
 # Create a special function to sort files by number (300 prior to 1600 for instance)
 numbers = re.compile(r'(\d+)')
@@ -41,13 +51,15 @@ filecount = 0
 for file in os.listdir(dirpath):
      if os.path.isfile(os.path.join(dirpath, file)):
 	if os.path.splitext(file)[1].lower() in ('.png'):
-			filecount = filecount + 1			
+			filecount = filecount + 1	
+			image = Image.open(file)
+			width, height = image.size
 			print("Cropping images for " + str(file))
 			image = cv2.imread(file)
 			gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY) # grayscale
-			_,thresh = cv2.threshold(gray,150,255,cv2.THRESH_BINARY_INV) # threshold
+			_,thresh = cv2.threshold(gray,125,255,cv2.THRESH_BINARY_INV) # threshold
 			kernel = cv2.getStructuringElement(cv2.MORPH_CROSS,(3,3))
-			dilated = cv2.dilate(thresh,kernel,iterations = 13) # dilate
+			dilated = cv2.dilate(thresh,kernel,iterations = max(DILATATION_ITERATIONS*width/1900, DILATATION_ITERATIONS)) # dilate x times or more if page is larger
 			_, contours, hierarchy = cv2.findContours(dilated,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE) # get contours
 
 			# for each contour found, draw a rectangle around it on original image
@@ -58,11 +70,11 @@ for file in os.listdir(dirpath):
 			 
 
 				# discard areas that are too large
-				if h>2500 and w>1500:
+				if h>(float(MAX_HEIGHT)/100*height) and w>(float(MAX_WIDTH)/100*width):
 					continue
 
 				# discard areas that are too small
-				if h<40 or w<150:
+				if h<(float(MIN_HEIGHT)/100*height) or w<(float(MIN_WIDTH)/100*width):
 					continue
 
 				crop_img = image[y:y+h, x:x+w]
@@ -91,9 +103,9 @@ f = open(ocrfile,"w")
 for root, dirs, filenames in os.walk(subfolder):
     for file in sorted(filenames, key=numericalSort):
 		print("Performing OCR on " + str(file))
-		text = pytesseract.image_to_string(Image.open(os.path.join(subfolder, file)), lang="frm", config="-c tessedit_char_blacklist=%").encode('utf-8')
-		if text[:4] == 'MENU':
-			print('Excluding block of text starting with MENUISIER')
+		text = pytesseract.image_to_string(Image.open(os.path.join(subfolder, file)), lang=TEXT_LANGUAGE, config="-c tessedit_char_blacklist=%").encode('utf-8')
+		if text[:4] == TEXT_EXCLUSION:
+			print('Excluding block of text starting with ' + TEXT_EXCLUSION)
 		else:
 			f.write(text + '\n\r')
 f.close()
@@ -131,9 +143,9 @@ text = re.sub(r'([a-zàé]\-)(\n\n)([a-zſ])', r'\1\n\3', text) # remove empty l
 text = re.sub(r'([a-zàé]\—)(\n\n)([a-zſ])', r'\1\n\3', text) # remove empty line between hyphenation
 
 # Fixing invalid spacing with comma and semicolon 
-text = re.sub(r'([a-z\)])(,)([a-zſ])', r'\1, \3', text)
-text = re.sub(r'(\s)(,)([a-zſ])', r', \3', text)
-text = re.sub(r'(\s)(;)([a-zſ\s])', r'\2\3', text)
+text = re.sub(r'([a-zA-Z0-9\)àâéèù])(,)([a-zA-Zſàâéèù0-9])', r'\1, \3', text)
+text = re.sub(r'(\s)(,)([a-zA-Zſàâéèù0-9])', r', \3', text)
+text = re.sub(r'(\s)(;)([a-zA-Zſàâéèù\s])', r'\2\3', text)
 
 # Fixing spaces before and after parenthesis
 text = re.sub(r'(\()(\s)([a-zA-Zſ\*])', r'\1\3', text)
@@ -144,9 +156,24 @@ text = re.sub(r'([a-zàâéù])(- )([a-zſàâéèù])', r'\1-\3', text)
 text = re.sub(r'([a-zàâéù])( -)([a-zſàâéèù])', r'\1-\3', text)
 text = re.sub(r'([a-zàâéù])( - )([a-zzſàâéèù])', r'\1-\3', text)
 
+# Fixing spaces before and after ampersands
+text = re.sub(r'([a-z0-9àâéù])(& )([a-zA-Z0-9ſàâéèù])', r'\1 & \3', text)
+text = re.sub(r'([a-z0-9àâéù])( &)([a-zA-Z0-9ſàâéèù])', r'\1 & \3', text)
+
+# Fixing spaces after periods
+text = re.sub(r'(\.)([A-Z0-9])', r'\1 \2', text)
+
 # Cleaning extra characters at end of paragraphs
 text = re.sub(r'\._', r'.', text)
 text = re.sub(r'\. \.‘',r'.', text)
 
+# Cleaning extra characters at begining of paragraphs
+text = re.sub(r'\n(.|-)(\s)([a-zA-Z])', r'\n\3', text)
+
+#Fixing Os read as zeros
+text = re.sub(r'([a-zA-Zé’])(0)', r'\1o', text)
+text = re.sub(r'(0)([a-zA-Zé’])', r'o\1', text)
+
 with open(ocrfile[:-4]+"_OCRFix.txt", 'w') as file: 
+	print('Writing final OCR to ' + str(ocrfile[:-4]+"_OCRFix.txt") )
 	file.write(text) # rewrite the file
