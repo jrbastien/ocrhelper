@@ -5,6 +5,7 @@ try:
 except ImportError:
     from PIL import Image
 import cv2
+import numpy as np
 import pytesseract
 import os
 import codecs
@@ -16,7 +17,7 @@ MAX_WIDTH = 78		# Max % of page width that can be a text block - anything larger
 MIN_HEIGHT = 1.4	# Min % of page height that can contain text - anything smaller is discarded
 MIN_WIDTH = 7.8		# Min % of page width that can contain text - anything smaller is discarded.
 
-DILATATION_ITERATIONS = 13 # Number of dilatations needed around text to create valid contours
+DILATATION_ITERATIONS = 15 # Number of dilatations needed around text to create valid contours
 
 TEXT_EXCLUSION = 'MENU'
 TEXT_LANGUAGE = 'rbo'
@@ -57,9 +58,35 @@ for file in os.listdir(dirpath):
 			print("Cropping images for " + str(file))
 			image = cv2.imread(file)
 			gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY) # grayscale
+
+			
+			# template matching and replacement
+			prevpt = 0
+			template = cv2.imread('opencv-template-for-matching.jpg',0)
+			w, h = template.shape[::-1]
+			res = cv2.matchTemplate(gray,template,cv2.TM_CCOEFF_NORMED)
+			threshold = 0.6
+			loc = np.where( res >= threshold)
+			for pt in zip(*loc[::-1]):
+				#cv2.rectangle(image, pt, (pt[0] + w, pt[1] + h), (255,255,255), 2)
+				cv2.rectangle(gray, pt, (pt[0] + w, pt[1] + h +50), 230, -1) #fill the matched area with grey on grayscale image.
+				if pt[1] > prevpt + 20:
+					print('Template match found at ' + str(pt))
+					crop_img = image[pt[1]+45:pt[1] + h +45, pt[0]:pt[0] + w]
+					crop_img_w_border = cv2.copyMakeBorder(crop_img, 0, 0, 0, 0, cv2.BORDER_CONSTANT, value=[255, 255, 255])
+					 #white border helps the OCR
+					filename = os.path.splitext(file)[0] + "_cropped_%d.png" % pt[1]
+					cv2.imwrite(os.path.join(subfolder, filename), crop_img_w_border)
+					cv2.rectangle(image, pt, (pt[0] + w, pt[1] + h +50), [255,255,255], -1) #fill the matched area with white on original image.
+					prevpt = pt[1]
+			
+			# retrieve contours for remaining blocks
 			_,thresh = cv2.threshold(gray,125,255,cv2.THRESH_BINARY_INV) # threshold
-			kernel = cv2.getStructuringElement(cv2.MORPH_CROSS,(3,3))
+			#cv2.waitKey(0)
+			kernel = cv2.getStructuringElement(cv2.MORPH_CROSS,(5,3))
 			dilated = cv2.dilate(thresh,kernel,iterations = max(DILATATION_ITERATIONS*width/1900, DILATATION_ITERATIONS)) # dilate x times or more if page is larger
+			#cv2.imshow('Dilated',dilated)
+			#cv2.waitKey(0)
 			_, contours, hierarchy = cv2.findContours(dilated,cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_NONE) # get contours
 
 			# for each contour found, draw a rectangle around it on original image
@@ -77,17 +104,19 @@ for file in os.listdir(dirpath):
 				if h<(float(MIN_HEIGHT)/100*height) or w<(float(MIN_WIDTH)/100*width):
 					continue
 
+				contourcount= contourcount + 1	
 				crop_img = image[y:y+h, x:x+w]
 				#cv2.imshow("cropped%d.png" %i, crop_img)
-				contourcount= contourcount + 1				
+				crop_img_w_border = cv2.copyMakeBorder(crop_img, 0, 0, 0, 0, cv2.BORDER_CONSTANT, value=[255, 255, 255]) #white border helps the OCR
+				
 				filename = os.path.splitext(file)[0] + "_cropped_%d.png" % y
-				cv2.imwrite(os.path.join(subfolder, filename), crop_img)
+				cv2.imwrite(os.path.join(subfolder, filename), crop_img_w_border)
 				#cv2.waitKey(0)
 				
 				# draw rectangle around contour on original image
 				cv2.rectangle(image,(x,y),(x+w,y+h),(255,0,255),2)
 			 
-			# write original image with added contours to disk  
+			# write original image with added contours to disk 			
 			cv2.imwrite(os.path.splitext(file)[0] + "_contoured.jpg", image) 
 			# cv2.destroyAllWindows()
 			if contourcount == 0:
@@ -127,7 +156,7 @@ with open (ocrfile, "r") as textfile: # load each file in the variable text
 	# start replacement
 	#rep = dict((re.escape(k), v) for k, v in rep.items()) commented to enable the use in the mapping of re reserved characters
 	pattern = re.compile("|".join(rep.keys()))
-	print (pattern)
+	#print (pattern)
 	text = pattern.sub(lambda m: rep[m.group(0)], text)
 
 	#write of te output files with new suffice
@@ -143,9 +172,11 @@ text = re.sub(r'([a-zàé]\-)(\n\n)([a-zſ])', r'\1\n\3', text) # remove empty l
 text = re.sub(r'([a-zàé]\—)(\n\n)([a-zſ])', r'\1\n\3', text) # remove empty line between hyphenation
 
 # Fixing invalid spacing with comma and semicolon 
-text = re.sub(r'([a-zA-Z0-9\)àâéèù])(,)([a-zA-Zſàâéèù0-9])', r'\1, \3', text)
-text = re.sub(r'(\s)(,)([a-zA-Zſàâéèù0-9])', r', \3', text)
-text = re.sub(r'(\s)(;)([a-zA-Zſàâéèù\s])', r'\2\3', text)
+text = re.sub(r'([a-zA-Z0-9\)àâéèù])(,)([a-zA-Zſàâéèù&0-9])', r'\1, \3', text)
+text = re.sub(r'([a-zA-Z0-9\)àâéèù])( , )([a-zA-Zſàâéèù&0-9])', r'\1, \3', text)
+text = re.sub(r'([a-zA-Z0-9\)àâéèù])( ,)(\n)', r'\1,\3', text)
+text = re.sub(r'(\s)(,)([a-zA-Zſàâéèù&0-9])', r', \3', text)
+text = re.sub(r'(\s)(;)([a-zA-Zſàâéèù&\s])', r'\2\3', text)
 
 # Fixing spaces before and after parenthesis
 text = re.sub(r'(\()(\s)([a-zA-Zſ\*])', r'\1\3', text)
@@ -168,7 +199,7 @@ text = re.sub(r'\._', r'.', text)
 text = re.sub(r'\. \.‘',r'.', text)
 
 # Cleaning extra characters at begining of paragraphs
-text = re.sub(r'\n(.|-)(\s)([a-zA-Z])', r'\n\3', text)
+text = re.sub(r'\n(\.|-)(\s)([a-zA-Z])', r'\n\3', text)
 
 #Fixing Os read as zeros
 text = re.sub(r'([a-zA-Zé’])(0)', r'\1o', text)
