@@ -5,6 +5,7 @@
  ell; |eﬅ 
  ell: |eﬅ 
  ef’t|eﬅ
+ éeﬅ|c’eﬅ
 el’t|eﬅ
    â | à 
 àla|à la
@@ -18,32 +19,48 @@ ainﬁ|ain
 ailance|aiſance
 aﬃeurer|aﬄeurer
  alin q| afin q
+ an | aﬁn 
+ aſin | aﬁn 
 alſembl|aembl
+amblage|aemblage
+aſſemblage|aemblage
+Aernblage|Aemblage
+Aſſernblage|Aemblage
+aëz|aez
 auﬁi|aui
 auﬃ|aui
+auſﬁ|aui
 aur|aui
 auſii|aui
- aſin | aﬁn 
 â-dire|à-dire
 â- dire|à-dire
 - â- dire|-à-dire
 -â-|-à-
 â-peu-|à-peu-
 â-plomb|à-plomb
+Brzﬀêts|Buﬀets
+Buﬀèrs|Buﬀets
 cboſe|choſe
 ces fortes d|ces ſortes d
 chaﬃs|chais
 c’eſi|c’eﬅ
  cﬅ | eﬅ 
  conﬁdérations|condérations
+cornmencé|commencé
+dlautre|d’autre
 deﬃné|deiné
 deﬃls|deus
 deﬃis|deus
 delné|deiné
+deſlus|deus
 delſous|deous
  dela | de la 
+Dc la|De la
+d’v |d’y 
+diorgue|d’orgue
 domeſiique|domeﬅique
 domcﬅique|domeﬅique
+Dormanre|Dormante
 d’unc |d’une 
 efi: |eﬅ 
 efi; |eﬅ 
@@ -55,15 +72,31 @@ eſi |eﬅ
 eſpcce|eſpece
 eſpœe|eſpece
 épaieur|épaieur
+épaiſleur|épaieur
 ferve|ſerve
+zrvent|ſervent
 feulement|ſeulement
 fixieme|xieme
+FLANCHE|PLANCHE
 font à|ſont à
 folide|ſolide
  groﬀe | groe 
+ grolle | groe 
+lesquelr|leſquels
 leiquelles|leſquelles
 lesquclles|leſquelles
+liépaieur|l’épaieur
+liépaieur|l’épaieur
+Lorſqubn|Lorſqu’on
+l’are|l’arc
+Menuiſèrie|Menuiſerie
+Menuiierie|Menuiſerie
+naiànce|naiance
 néceſiaire|néceaire
+néceire|néceaire
+nécerire|néceaire
+néceſlàire|néceaire
+PLANGHB|PLANCHE
 pofiible|poible
 poſiible|poible
 poſfible|poible
@@ -74,11 +107,15 @@ poﬃble|poible
 richeſie|richee
 ſàns|ſans
 três-|très-
+ulage|uſage
 uſàge|uſage
 ufàge|uſage
 uſiige|uſage
 épais: seur|épaieur
 épaiſlèur|épaieur
 resie|reﬅe
+vehant|venant
 veſiibules|veﬅibules
+uige|uſage
+vouS|vous
 V oycz|Voyez

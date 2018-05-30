@@ -15,12 +15,13 @@ import shutil
 MAX_HEIGHT = 83		# Max % of page height that can be a text block - anything larger is discarded
 MAX_WIDTH = 78		# Max % of page width that can be a text block - anything larger is discarded
 MIN_HEIGHT = 1.4	# Min % of page height that can contain text - anything smaller is discarded
-MIN_WIDTH = 7.8		# Min % of page width that can contain text - anything smaller is discarded.
+MIN_WIDTH = 7.8		# Min % of page width that can contain text - anything smaller is discarded
 
 DILATATION_ITERATIONS = 15 # Number of dilatations needed around text to create valid contours
+TOP, BOTTOM, LEFT, RIGHT = 50,50,50,50	#border width in pixels added to cropped images
 
-TEXT_EXCLUSION = 'MENU'
-TEXT_LANGUAGE = 'rbo'
+TEXT_EXCLUSION = 'MENU' # Exclude lines of text starting with this value from the OCR when it is at the begining of a block
+TEXT_LANGUAGE = 'rbo'	# Use this language with Tesseract
 
 
 # Create a special function to sort files by number (300 prior to 1600 for instance)
@@ -73,8 +74,7 @@ for file in os.listdir(dirpath):
 				if pt[1] > prevpt + 20:
 					print('Template match found at ' + str(pt))
 					crop_img = image[pt[1]+45:pt[1] + h +45, pt[0]:pt[0] + w]
-					crop_img_w_border = cv2.copyMakeBorder(crop_img, 0, 0, 0, 0, cv2.BORDER_CONSTANT, value=[255, 255, 255])
-					 #white border helps the OCR
+					crop_img_w_border = cv2.copyMakeBorder(crop_img, TOP, BOTTOM, LEFT, RIGHT, cv2.BORDER_CONSTANT, value=[255, 255, 255]) #white borders can help the OCR
 					filename = os.path.splitext(file)[0] + "_cropped_%d.png" % pt[1]
 					cv2.imwrite(os.path.join(subfolder, filename), crop_img_w_border)
 					cv2.rectangle(image, pt, (pt[0] + w, pt[1] + h +50), [255,255,255], -1) #fill the matched area with white on original image.
@@ -107,8 +107,7 @@ for file in os.listdir(dirpath):
 				contourcount= contourcount + 1	
 				crop_img = image[y:y+h, x:x+w]
 				#cv2.imshow("cropped%d.png" %i, crop_img)
-				crop_img_w_border = cv2.copyMakeBorder(crop_img, 0, 0, 0, 0, cv2.BORDER_CONSTANT, value=[255, 255, 255]) #white border helps the OCR
-				
+				crop_img_w_border = cv2.copyMakeBorder(crop_img, TOP, BOTTOM, LEFT, RIGHT, cv2.BORDER_CONSTANT, value=[255, 255, 255]) #white borders can help the OCR
 				filename = os.path.splitext(file)[0] + "_cropped_%d.png" % y
 				cv2.imwrite(os.path.join(subfolder, filename), crop_img_w_border)
 				#cv2.waitKey(0)
@@ -127,23 +126,29 @@ if filecount == 0:
 	exit()
 
 # Perform OCR on cropped files
-ocrfile = foldername + ".txt"
+ocrfile = foldername + "_ocr.txt"
+finalfile = foldername + ".txt"
 f = open(ocrfile,"w")
 for root, dirs, filenames in os.walk(subfolder):
     for file in sorted(filenames, key=numericalSort):
 		print("Performing OCR on " + str(file))
-		text = pytesseract.image_to_string(Image.open(os.path.join(subfolder, file)), lang=TEXT_LANGUAGE, config="-c tessedit_char_blacklist=%").encode('utf-8')
-		if text[:4] == TEXT_EXCLUSION:
-			print('Excluding block of text starting with ' + TEXT_EXCLUSION)
+		text = pytesseract.image_to_string(Image.open(os.path.join(subfolder, file)), lang=TEXT_LANGUAGE, config="-c tessedit_char_blacklist=\%]!_‘—{€/…").encode('utf-8')
+		if len(TEXT_EXCLUSION)>0 and text[:len(TEXT_EXCLUSION)] == TEXT_EXCLUSION:
+			print('Excluding text starting with ' + TEXT_EXCLUSION)
+			try:
+				text = text.split("\n",1)[1]
+			except IndexError:
+				text = ''
+			f.write(text + '\n\n')
 		else:
-			f.write(text + '\n\r')
+			f.write(text + '\n\n')
 f.close()
 
 # Fixing common OCR errors
 # Performing Search and replace with dictionary OCRFix.txt
 print('Fixing common OCR errors')
 
-rep = {} # creation of empy dictionary
+rep = {} # creation of empty dictionary
 
 with open('OCRFix.txt') as temprep: # loading of definitions in the dictionary
     for line in temprep:
@@ -160,23 +165,25 @@ with open (ocrfile, "r") as textfile: # load each file in the variable text
 	text = pattern.sub(lambda m: rep[m.group(0)], text)
 
 	#write of te output files with new suffice
-	target = open(ocrfile[:-4]+"_OCRFix.txt", "w")
+	target = open(finalfile, "w")
 	target.write(text)
 	target.close()
 
 # Removing empty lines
-with open(ocrfile[:-4]+"_OCRFix.txt") as file: 
+with open(finalfile) as file: 
     text = file.read() # read file into memory
 text = re.sub(r'([a-zàé,:])(\n\n)([a-zſ&])', r'\1\n\3', text) # remove empty line between words
 text = re.sub(r'([a-zàé]\-)(\n\n)([a-zſ])', r'\1\n\3', text) # remove empty line between hyphenation
 text = re.sub(r'([a-zàé]\—)(\n\n)([a-zſ])', r'\1\n\3', text) # remove empty line between hyphenation
+text = re.sub(r'(\n)(\n\n)(\n)', r'\n', text) # remove multiple empty lines
 
-# Fixing invalid spacing with comma and semicolon 
+# Fixing invalid spacing with comma, colon and semicolon 
 text = re.sub(r'([a-zA-Z0-9\)àâéèù])(,)([a-zA-Zſàâéèù&0-9])', r'\1, \3', text)
 text = re.sub(r'([a-zA-Z0-9\)àâéèù])( , )([a-zA-Zſàâéèù&0-9])', r'\1, \3', text)
 text = re.sub(r'([a-zA-Z0-9\)àâéèù])( ,)(\n)', r'\1,\3', text)
 text = re.sub(r'(\s)(,)([a-zA-Zſàâéèù&0-9])', r', \3', text)
-text = re.sub(r'(\s)(;)([a-zA-Zſàâéèù&\s])', r'\2\3', text)
+text = re.sub(r'(\s)(;|:)([a-zA-Zſàâéèù&])', r'\2 \3', text)
+text = re.sub(r'(\s)(;|:)(\s)', r'\2\3', text)
 
 # Fixing spaces before and after parenthesis
 text = re.sub(r'(\()(\s)([a-zA-Zſ\*])', r'\1\3', text)
@@ -190,6 +197,7 @@ text = re.sub(r'([a-zàâéù])( - )([a-zzſàâéèù])', r'\1-\3', text)
 # Fixing spaces before and after ampersands
 text = re.sub(r'([a-z0-9àâéù])(& )([a-zA-Z0-9ſàâéèù])', r'\1 & \3', text)
 text = re.sub(r'([a-z0-9àâéù])( &)([a-zA-Z0-9ſàâéèù])', r'\1 & \3', text)
+text = re.sub(r'(\n)(&)([a-zA-Z0-9ſàâéèù])', r'\1& \3', text)
 
 # Fixing spaces after periods
 text = re.sub(r'(\.)([A-Z0-9])', r'\1 \2', text)
@@ -205,6 +213,6 @@ text = re.sub(r'\n(\.|-)(\s)([a-zA-Z])', r'\n\3', text)
 text = re.sub(r'([a-zA-Zé’])(0)', r'\1o', text)
 text = re.sub(r'(0)([a-zA-Zé’])', r'o\1', text)
 
-with open(ocrfile[:-4]+"_OCRFix.txt", 'w') as file: 
-	print('Writing final OCR to ' + str(ocrfile[:-4]+"_OCRFix.txt") )
+with open(finalfile, 'w') as file: 
+	print('Writing final OCR to ' + str(finalfile) )
 	file.write(text) # rewrite the file
