@@ -18,7 +18,7 @@ $ pip install numpy
 $ pip install pytesseract
 ```
 
-## Workflow
+## Single Chapter Workflow
 1. Create a directory with the individual PNG images of the chapter you want to OCR
 2. Copy  BlockTextExtract.py, OCRFix.txt and Text2HTML.py to the same directory
 3. Execute the first script:
@@ -28,13 +28,28 @@ $ pip install pytesseract
 6. Convert to HTML if needed.  Before doing this, it is preferable to fix all invalid spaces between paragraphs.  Then execute:
     ~$ python Text2HTML.py [FolderName]_OCRFix.txt
 
+## Multi Chapter Workflow
+1. Create multiple directories with the individual PNG images of the chapters you want to OCR.
+2. Copy  MultiChaptersBlockTextExtract.py, OCRFix.txt, MultiChaptersTextDeskew.py and Text2HTML.py to the root of those multiple directories
+3. To improve the OCR, deskew the images by running:
+    ~$ MultiChaptersTextDeskew.py
+    Notice: This could have side effect. I have noticed that the resulting OCR sometimes
+    has missing letters like g, q, and p that can be found separately on the next line!
+4. Execute the first script:
+    ~$ python MultiChaptersBlockTextExtract.py
+5. The resulting OCR is now [FolderName]_OCRFix.txt.
+
+
 ## Tweaks
 
 - In BlockTextExtract.py, you may want to change the size of the areas to discard based on the size of your scan.  For the small areas, you might want to discard any page numbers, for the large area, you are trying to exclude a large contour that would include the entire page.
 - The language of the OCR training file needs to be changed to your language.  It is currently lang="frm" to recognize medieval French.
+- Specify the width of the white border that is added to the blocks of text. Adding a border sometimes help the OCR.
 - Certain characters can be excluded from the OCR.  Currently, it only excludes %.  Modify tessedit_char_blacklist= as needed.
 - Specify the text in the header or in the footer of the page that you want to exclude.  Currently it is "if text[:4] == 'MENU':".  This is to exclude any footer with "MENUISIER" in it.
 - OCRFix.txt is a dictionary of words to be corrected.  The left end side of the pipe delimiter is the word to correct, the right end side, the corrected word.  Adjust as necessary based on your results.
+- Side page elements can be extracted and OCRed separatly by creating a template image (opencv-template-for-matching.jpg).  If the file exists, the program will use it otherwise
+it will just process the entire page.
 
 - In Text2HTML.py, you might want to uncomment "text = re.sub(r'([a-zàâéù])(-<br>)([a-zſàâéèù])', r'\1\3', text)".  This will remove line breaks after hyphens and rebuild the 2 parts of the word together.  This is ok if your text does not contain a lot of words with natural hyphenation.  For instance, this might lead to convert "Full-time" to "fulltime".
 

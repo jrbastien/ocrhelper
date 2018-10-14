@@ -26,6 +26,7 @@ amblage|aemblage
 aſſemblage|aemblage
 Aernblage|Aemblage
 Aſſernblage|Aemblage
+aﬀembl|aembl
 aëz|aez
 auﬁi|aui
 auﬃ|aui
@@ -38,8 +39,10 @@ auſii|aui
 -â-|-à-
 â-peu-|à-peu-
 â-plomb|à-plomb
+Bizﬀêts|Buﬀets
 Brzﬀêts|Buﬀets
 Buﬀèrs|Buﬀets
+buet|buﬀet
 cboſe|choſe
 ces fortes d|ces ſortes d
 chaﬃs|chais
@@ -55,9 +58,11 @@ delné|deiné
 deſlus|deus
 delſous|deous
  dela | de la 
+de forte qu|de ſorte qu
 Dc la|De la
 d’v |d’y 
 diorgue|d’orgue
+diviﬁon|divion
 domeſiique|domeﬅique
 domcﬅique|domeﬅique
 Dormanre|Dormante
@@ -71,32 +76,48 @@ e’|é
 eſi |eﬅ 
 eſpcce|eſpece
 eſpœe|eſpece
+égalà|égal à
+enfemble|enſemble
 épaieur|épaieur
 épaiſleur|épaieur
+épaiſieur|épaieur
+efcription|eſcription
 ferve|ſerve
+fervant|ſervant
+ fers | ſers 
 zrvent|ſervent
 feulement|ſeulement
 fixieme|xieme
 FLANCHE|PLANCHE
 font à|ſont à
 folide|ſolide
+fur-tout|ſur-tout
+ fuis | ſuis 
  groﬀe | groe 
  grolle | groe 
-lesquelr|leſquels
+juſquià|juſqu’à
+leſquelr|leſquels
+leſqueis|leſquels
 leiquelles|leſquelles
-lesquclles|leſquelles
+leſquclles|leſquelles
 liépaieur|l’épaieur
 liépaieur|l’épaieur
 Lorſqubn|Lorſqu’on
 l’are|l’arc
 Menuiſèrie|Menuiſerie
 Menuiierie|Menuiſerie
+Menuﬀerie|Menuiſerie
+menr |ment 
 naiànce|naiance
 néceſiaire|néceaire
 néceire|néceaire
 nécerire|néceaire
 néceſlàire|néceaire
+néceﬀaire|néceaire
 PLANGHB|PLANCHE
+PLANGHE|PLANCHE
+paſler|paer
+phyﬁque|phyque
 pofiible|poible
 poſiible|poible
 poſfible|poible
@@ -105,7 +126,9 @@ poflible|poible
 poﬂible|poible
 poﬃble|poible
 richeſie|richee
+rneſure|meſure
 ſàns|ſans
+ fans | ſans 
 três-|très-
 ulage|uſage
 uſàge|uſage
@@ -113,9 +136,26 @@ ufàge|uſage
 uſiige|uſage
 épais: seur|épaieur
 épaiſlèur|épaieur
-resie|reﬅe
+reſie|reﬅe
 vehant|venant
 veſiibules|veﬅibules
 uige|uſage
 vouS|vous
 V oycz|Voyez
+V qyez|Voyez
+S E c T 1 0 11|S E C T I O N
+S E c T 1 0|S E C T I O
+S E c 1 1 0|S E C T I O
+ſèions|ſeions
+toutes fortes|toutes ſortes
+&Co|&c.
+fortes de|ſortes de
+irface|ſurface
+ ſà | ſa 
+ ſae| fae
+ fur | ſur 
+eſpeee|eſpece
+qulil|qu’il
+conféquence|conſéquence
+ àla | à la 
+ rnis | mis 

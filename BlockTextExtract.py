@@ -178,7 +178,7 @@ text = re.sub(r'([a-zàé]\—)(\n\n)([a-zſ])', r'\1\n\3', text) # remove empty
 text = re.sub(r'(\n)(\n\n)(\n)', r'\n', text) # remove multiple empty lines
 
 # Fixing invalid spacing with comma, colon and semicolon 
-text = re.sub(r'([a-zA-Z0-9\)àâéèù])(,)([a-zA-Zſàâéèù&0-9])', r'\1, \3', text)
+text = re.sub(r'([a-zA-Z0-9\)àâéèù])(,|;|:)([a-zA-Zſﬁàâéèù&0-9])', r'\1\2 \3', text)
 text = re.sub(r'([a-zA-Z0-9\)àâéèù])( , )([a-zA-Zſàâéèù&0-9])', r'\1, \3', text)
 text = re.sub(r'([a-zA-Z0-9\)àâéèù])( ,)(\n)', r'\1,\3', text)
 text = re.sub(r'(\s)(,)([a-zA-Zſàâéèù&0-9])', r', \3', text)
